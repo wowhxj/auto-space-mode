@@ -1,0 +1,26 @@
+# -*- org-export-babel-evaluate: nil -*-
+#+TITLE: auto-space-mode
+
+* What is auto-space-mode?
+
+=auto-space-mode= is a package that automatically adds spaces between Chinese characters and English words. This behavior ONLY occurs during input.
+
+* How to use auto-space-mode?
+
+Simply download =auto-space-mode.el= and place it in your Emacs =load-path= directory. Then, add the following to your config file:
+
+#+begin_src emacs-lisp
+(require 'auto-space-mode)
+(auto-space-mode t)
+#+end_src
+
+* What is the difference between auto-space-mode and pangu-spacing?
+
+There is another package [[https://github.com/coldnew/pangu-spacing][pangu-spacing]], that provides similar functionality. The differences between auto-space-mode and pangu-spacing are:
+
+1. =auto-space-mode= ONLY adds spaces during input; it does NOT modify other parts of your document.
+2. =auto-space-mode= adds ACTUAL spaces instead of using overlays.
+
+-----
+
+This package was developed with the assistance of ChatGPT.
