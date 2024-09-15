@@ -21,7 +21,8 @@ You can also use =add-space-between-chinese-and-english-in-region= and =remove-s
 There is another package [[https://github.com/coldnew/pangu-spacing][pangu-spacing]], that provides similar functionality. The differences between auto-space-mode and pangu-spacing are:
 
 1. =auto-space-mode= ONLY adds spaces during input; it does NOT modify other parts of your document.
-2. =auto-space-mode= adds ACTUAL spaces instead of using overlays which means you can add or remove spaces as you wish.
+2. =auto-space-mode= adds ACTUAL spaces instead of using overlays
+3. You can FREELY add or remove those spaces.
 
 -----
 
