@@ -71,20 +71,42 @@
           (setq buffer-content (concat buffer-content " ")))
       buffer-content)))
 
-;; 这个函数有点问题，当剪贴板里有中英文夹杂的路径是，他会自动加上空格从而破坏路径，这里先禁用
-;; (defun auto-space-yank-advice (orig-fun &rest args)
-;;   "Advice to automatically add spaces between Chinese and English characters after yanking."
-;;   (let ((beg (point))
-;;         (prev-char (char-before)))
-;;     (apply orig-fun args)
-;;     (let ((end (point))
-;;           (next-char (char-after)))
-;;       (let ((pasted-text (buffer-substring-no-properties beg end)))
-;;         (delete-region beg end)
-;;         (insert (process-pasted-text pasted-text prev-char next-char))))))
+(defun add-space-between-chinese-and-english-in-region (start end)
+  "Add spaces between Chinese and English characters in the selected region from START to END."
+  (interactive "r")
+  (save-excursion
+    (goto-char start)
+    ;; Adjust END to account for any spaces added during processing
+    ;; Use 't' so the marker advances when text is inserted at its position
+    (let ((adjusted-end (copy-marker end t)))
+      (while (< (point) adjusted-end)
+        (let ((current-char (char-after (point)))
+              (next-char (char-after (1+ (point)))))
+          (when (and current-char next-char
+                     (or (and (is-chinese-character current-char) (is-halfwidth-character next-char))
+                         (and (is-halfwidth-character current-char) (is-chinese-character next-char)))
+                     (not (eq next-char ?\s)))
+            (save-excursion
+              (goto-char (1+ (point)))
+              (insert " ")))
+          (forward-char 1))))))
 
-;; (advice-add 'yank :around #'auto-space-yank-advice)
-;; (advice-add 'yank-pop :around #'auto-space-yank-advice)
+(defun remove-space-between-chinese-and-english-in-region (start end)
+  "在选中区域 START 到 END 内，删除中英文字符之间的空格。"
+  (interactive "r")
+  (save-excursion
+    (goto-char start)
+    ;; 使用循环遍历区域内的空格
+    (while (re-search-forward "[[:space:]]+" end t)
+      (let ((match-start (match-beginning 0))
+            (match-end (match-end 0)))
+        (let ((prev-char (char-before match-start))
+              (next-char (char-after match-end)))
+          (when (and prev-char next-char
+                     (or (and (is-chinese-character prev-char) (is-halfwidth-character next-char))
+                         (and (is-halfwidth-character prev-char) (is-chinese-character next-char))))
+            ;; 删除空格
+            (delete-region match-start match-end)))))))
 
 ;;;###autoload
 (define-minor-mode auto-space-mode
