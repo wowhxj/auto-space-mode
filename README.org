@@ -14,12 +14,14 @@ Simply download =auto-space-mode.el= and place it in your Emacs =load-path= dire
 (auto-space-mode t)
 #+end_src
 
+You can also use =add-space-between-chinese-and-english-in-region= and =remove-space-between-chinese-and-english-in-region= to add or remove spaces in a region.
+
 * What is the difference between auto-space-mode and pangu-spacing?
 
 There is another package [[https://github.com/coldnew/pangu-spacing][pangu-spacing]], that provides similar functionality. The differences between auto-space-mode and pangu-spacing are:
 
 1. =auto-space-mode= ONLY adds spaces during input; it does NOT modify other parts of your document.
-2. =auto-space-mode= adds ACTUAL spaces instead of using overlays.
+2. =auto-space-mode= adds ACTUAL spaces instead of using overlays which means you can add or remove spaces as you wish.
 
 -----
 
